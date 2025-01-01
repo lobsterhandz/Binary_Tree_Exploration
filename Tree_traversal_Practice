@@ -1,0 +1,90 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    # Task 1: In-order Traversal (Left, Root, Right)
+    def in_order_traversal(self, node):
+        if node is None:
+            return []
+        return self.in_order_traversal(node.left) + [node.value] + self.in_order_traversal(node.right)
+
+    # Task 2: Pre-order Traversal (Root, Left, Right)
+    def pre_order_traversal(self, node):
+        if node is None:
+            return []
+        return [node.value] + self.pre_order_traversal(node.left) + self.pre_order_traversal(node.right)
+
+    # Task 3: Post-order Traversal (Left, Right, Root)
+    def post_order_traversal(self, node):
+        if node is None:
+            return []
+        return self.post_order_traversal(node.left) + self.post_order_traversal(node.right) + [node.value]
+
+    # Fibonacci-Traversal (Creative Extension): Traversal where each level corresponds to Fibonacci sequence index
+    def fibonacci_traversal(self, node):
+        def fibonacci(n):
+            if n == 0:
+                return 0
+            elif n == 1:
+                return 1
+            else:
+                return fibonacci(n - 1) + fibonacci(n - 2)
+
+        def traverse_with_fibonacci(node, level=0):
+            if node is None:
+                return []
+            fib_value = fibonacci(level)
+            return [(node.value, fib_value)] + traverse_with_fibonacci(node.left, level + 1) + traverse_with_fibonacci(node.right, level + 2)
+
+        return traverse_with_fibonacci(node)
+
+    # Spiral Traversal (Creative Extension): Traverse levels in zig-zag order
+    def spiral_traversal(self, node):
+        if not node:
+            return []
+        result = []
+        current_level = [node]
+        left_to_right = True
+
+        while current_level:
+            level_values = []
+            next_level = []
+
+            for n in current_level:
+                level_values.append(n.value)
+                if n.left:
+                    next_level.append(n.left)
+                if n.right:
+                    next_level.append(n.right)
+
+            if not left_to_right:
+                level_values.reverse()
+
+            result.extend(level_values)
+            current_level = next_level
+            left_to_right = not left_to_right
+
+        return result
+
+# Build the binary tree
+bt = BinaryTree()
+bt.root = Node(50)
+bt.root.left = Node(30)
+bt.root.right = Node(70)
+bt.root.left.left = Node(40)
+bt.root.left.right = Node(20)
+bt.root.right.left = Node(60)
+bt.root.right.right = Node(80)
+
+# Execute all traversals
+print("In-order Traversal:", bt.in_order_traversal(bt.root))
+print("Pre-order Traversal:", bt.pre_order_traversal(bt.root))
+print("Post-order Traversal:", bt.post_order_traversal(bt.root))
+print("Fibonacci Traversal:", bt.fibonacci_traversal(bt.root))
+print("Spiral Traversal:", bt.spiral_traversal(bt.root))
