@@ -70,6 +70,16 @@ class BinaryTree:
             current_level = next_level
             left_to_right = not left_to_right
 
+        return result 
+
+# Fractal Traversal: Recursive fractal-based traversal generating tree patterns
+    def fractal_traversal(self, node, depth=0):
+        if node is None or depth < 0:
+            return []
+        result = [(node.value, depth)]
+        if depth > 0:
+            result += self.fractal_traversal(node.left, depth - 1)
+            result += self.fractal_traversal(node.right, depth - 1)
         return result
 
 # Build the binary tree
@@ -88,3 +98,4 @@ print("Pre-order Traversal:", bt.pre_order_traversal(bt.root))
 print("Post-order Traversal:", bt.post_order_traversal(bt.root))
 print("Fibonacci Traversal:", bt.fibonacci_traversal(bt.root))
 print("Spiral Traversal:", bt.spiral_traversal(bt.root))
+print("Fractal Traversal:", bt.fractal_traversal(bt.root, depth=3))
